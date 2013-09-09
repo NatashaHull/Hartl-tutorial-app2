@@ -39,10 +39,7 @@ describe "signup" do
 
       describe "without name" do
         before do
-          fill_in "Name",         with: ""
-          fill_in "Email",        with: "user@example.com"
-          fill_in "Password",     with: "foobar"
-          fill_in "Confirmation", with: "foobar"
+          signup("Name" => "")
           click_button submit
         end
 
@@ -52,10 +49,7 @@ describe "signup" do
 
       describe "without email" do
         before do
-          fill_in "Name",         with: "Example User"
-          fill_in "Email",        with: ""
-          fill_in "Password",     with: "foobar"
-          fill_in "Confirmation", with: "foobar"
+          signup("Email" => "")
           click_button submit
         end
 
@@ -66,10 +60,7 @@ describe "signup" do
 
       describe "without password" do
         before do
-          fill_in "Name",         with: "Example User"
-          fill_in "Email",        with: "user@example.com"
-          fill_in "Password",     with: ""
-          fill_in "Confirmation", with: "foobar"
+          signup("Password" => "")
           click_button submit
         end
 
@@ -80,10 +71,7 @@ describe "signup" do
 
       describe "without password confirmation" do
         before do
-          fill_in "Name",         with: "Example User"
-          fill_in "Email",        with: "user@example.com"
-          fill_in "Password",     with: "foobar"
-          fill_in "Confirmation", with: ""
+          signup("Confirmation" => "")
           click_button submit
         end
 
@@ -94,10 +82,7 @@ describe "signup" do
 
       describe "invalid email" do
         before do
-          fill_in "Name",         with: "Example User"
-          fill_in "Email",        with: "foo"
-          fill_in "Password",     with: "foobar"
-          fill_in "Confirmation", with: "foobar"
+          signup("Email" => "foo")
           click_button submit
         end
 
@@ -107,10 +92,7 @@ describe "signup" do
 
       describe "invalid password" do
         before do
-          fill_in "Name",         with: "Example User"
-          fill_in "Email",        with: "user@example.com"
-          fill_in "Password",     with: "foo"
-          fill_in "Confirmation", with: "foo"
+          signup("Password" => "foo", "Confirmation" => "foo")
           click_button submit
         end
 
@@ -120,10 +102,7 @@ describe "signup" do
 
       describe "password != password confirmation" do
         before do
-          fill_in "Name",         with: "Example User"
-          fill_in "Email",        with: "user@example.com"
-          fill_in "Password",     with: "foobar"
-          fill_in "Confirmation", with: "foo"
+          signup("Confirmation" => "foo")
           click_button submit
         end
 
@@ -133,12 +112,7 @@ describe "signup" do
     end
 
     describe "with valid information" do
-      before do
-        fill_in "Name",         with: "Example User"
-        fill_in "Email",        with: "user@example.com"
-        fill_in "Password",     with: "foobar"
-        fill_in "Confirmation", with: "foobar"
-      end
+      before { signup }
 
       it "should create a user" do
         expect { click_button submit }.to change(User, :count).by(1)
