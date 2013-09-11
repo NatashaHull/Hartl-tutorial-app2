@@ -160,6 +160,7 @@ describe User do
         expect(Micropost.where(id: micropost.id)).to be_empty
       end
     end
+    
     describe "status" do
       let(:unfollowed_post) do
         FactoryGirl.create(:micropost, user: FactoryGirl.create(:user))

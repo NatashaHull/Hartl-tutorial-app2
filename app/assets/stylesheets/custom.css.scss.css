@@ -173,6 +173,11 @@ input {
   @include box_sizing;
 }
 
+#character_count {
+  padding-left: 3em;
+  display: inline;
+}
+
 /* Users index */
 
 .users {
