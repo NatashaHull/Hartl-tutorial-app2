@@ -210,5 +210,27 @@ describe User do
       it { should_not be_following(other_user) }
       its(:followed_users) { should_not include(other_user) }
     end
+
+    describe "when follower id is not present" do
+      let(:relationship) { @user.relationships.build(followed_id: other_user.id) }
+      before { relationship.follower_id = nil }
+      it { should_not be_valid }
+    end
+
+    it "should destroy associated relationships" do
+      30.times { FactoryGirl.create(:user).follow!(@user) }
+      id = @user.id
+      followers = @user.follower_ids.to_a
+      followed_users = @user.followed_user_ids.to_a
+      @user.destroy
+      expect(followers).not_to be_empty
+      expect(followed_users).not_to be_empty
+      followers.each do |follower|
+        expect(Relationship.where(followed_id: id, follower_id: follower)).to be_empty
+      end
+      followed_users.each do |followed|
+        expect(Relationship.where(followed_id: followed, follower_id: id)).to be_empty
+      end
+    end
   end
 end
